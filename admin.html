@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase | Demo Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-page">
+    <header class="admin-header">
+        <div>
+            <p class="admin-eyebrow">ShopEase Management</p>
+            <h1>Demo Admin Dashboard</h1>
+        </div>
+        <a href="index.html">← Back to Store</a>
+    </header>
+
+    <main class="admin-main">
+        <p class="admin-demo-notice">
+            Demonstration only: this dashboard uses browser storage and has no secure admin authentication.
+            Do not use real customer, payment, or business data.
+        </p>
+
+        <section class="admin-stats" aria-label="Store summary">
+            <article class="admin-stat-card">
+                <p>Total Products</p>
+                <strong id="admin-product-count">0</strong>
+            </article>
+            <article class="admin-stat-card">
+                <p>Total Orders</p>
+                <strong id="admin-order-count">0</strong>
+            </article>
+            <article class="admin-stat-card">
+                <p>Total Sales</p>
+                <strong id="admin-sales-total">₹0</strong>
+            </article>
+        </section>
+
+        <section class="admin-panel">
+            <div class="admin-section-heading">
+                <div>
+                    <p class="admin-eyebrow">Catalog</p>
+                    <h2>Manage Products</h2>
+                </div>
+            </div>
+
+            <form id="admin-product-form" class="admin-product-form">
+                <input type="hidden" id="admin-product-id">
+                <label for="admin-product-name">Product name</label>
+                <input type="text" id="admin-product-name" required maxlength="80">
+
+                <label for="admin-product-category">Category</label>
+                <input type="text" id="admin-product-category" required maxlength="40">
+
+                <label for="admin-product-price">Price (₹)</label>
+                <input type="number" id="admin-product-price" min="0.01" step="0.01" required>
+
+                <label for="admin-product-image">Image URL</label>
+                <input type="url" id="admin-product-image" placeholder="https://example.com/product.jpg" required>
+
+                <label for="admin-product-description">Description</label>
+                <textarea id="admin-product-description" rows="3" required maxlength="500"></textarea>
+
+                <p id="admin-product-error" role="alert" hidden></p>
+                <div class="admin-form-actions">
+                    <button type="submit" id="admin-save-product">Add Product</button>
+                    <button type="button" id="admin-cancel-edit" class="admin-secondary-button" hidden>
+                        Cancel Edit
+                    </button>
+                </div>
+            </form>
+
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-products-table"></tbody>
+                </table>
+            </div>
+            <p id="admin-empty-products" class="admin-empty-message" hidden>
+                No products are listed yet. Add a product using the form above.
+            </p>
+        </section>
+
+        <section class="admin-panel">
+            <div class="admin-section-heading">
+                <div>
+                    <p class="admin-eyebrow">Completed demo checkouts</p>
+                    <h2>Customer Orders</h2>
+                </div>
+            </div>
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-orders-table"></tbody>
+                </table>
+            </div>
+            <p id="admin-empty-orders" class="admin-empty-message" hidden>
+                No completed orders yet. Demo checkouts will appear here.
+            </p>
+        </section>
+    </main>
+
+    <script src="product-data.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

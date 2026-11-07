@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ShopEase | Online Shopping</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    
+<header class="store-header">
+    <h1>ShopEase</h1>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#products">Products</a>
+        <a href="#wishlist">Wishlist (<span id="wishlist-count">0</span>)</a>
+        <a href="#order-history">Order History</a>
+        <a href="#cart">Cart 🛒</a>
+        <a href="admin.html">Demo Admin Dashboard</a>
+    </nav>
+
+    <div class="user-info">
+        <span id="welcomeUser"></span>
+        <a id="loginLink" href="login.html">Login</a>
+        <button id="logoutButton" type="button" hidden>Logout</button>
+    </div>
+</header>
+
+
+    <section class="hero">
+        <h2>Welcome to ShopEase!</h2>
+        <p>Discover products you'll love.</p>
+        <button onclick="showMessage()">Explore Now</button>
+    </section>
+
+    <section id="products">
+        <h2>Our Products</h2>
+
+        <div id="product-listing">
+    <input
+        type="text"
+        id="search"
+        placeholder="Search products..."
+        oninput="searchProducts()"
+    >
+
+        <div class="category-filters" role="group" aria-label="Filter products by category">
+            <button type="button" class="category-filter active" data-category="all" aria-pressed="true" onclick="filterByCategory(this)">
+                All
+            </button>
+            <button type="button" class="category-filter" data-category="electronics" aria-pressed="false" onclick="filterByCategory(this)">
+                Electronics
+            </button>
+            <button type="button" class="category-filter" data-category="accessories" aria-pressed="false" onclick="filterByCategory(this)">
+                Accessories
+            </button>
+        </div>
+
+        <p id="no-products-message" role="status" hidden>
+            No products found. Try a different search or category.
+        </p>
+
+        <div class="product-container">
+
+            <div class="product-card" data-name="Headphones" data-category="electronics" data-price="999" data-description="Enjoy clear, immersive sound with these comfortable headphones, ideal for music, videos, and everyday listening.">
+                <a href="#product-detail" class="product-details-trigger" onclick="showProductDetails(this.closest('.product-card')); return false;" aria-label="View Headphones details">
+                <img
+    src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"
+    alt="Headphones"
+>
+                <h3>Headphones</h3>
+                <p>Price: ₹999</p>
+                </a>
+                <button type="button" class="wishlist-toggle" aria-pressed="false" onclick="toggleWishlist(this.closest('.product-card'))">
+                    ♡ Add to Wishlist
+                </button>
+                <button onclick="addToCart('Headphones', 999)">
+                    Add to Cart
+                </button>
+            </div>
+
+            <div class="product-card" data-name="Smart Watch" data-category="electronics" data-price="1499" data-description="Track your daily activity and stay connected with this versatile smart watch, designed for convenient everyday use.">
+                <a href="#product-detail" class="product-details-trigger" onclick="showProductDetails(this.closest('.product-card')); return false;" aria-label="View Smart Watch details">
+                <img
+    src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"
+    alt="Smart Watch"
+>
+                <h3>Smart Watch</h3>
+                <p>Price: ₹1499</p>
+                </a>
+                <button type="button" class="wishlist-toggle" aria-pressed="false" onclick="toggleWishlist(this.closest('.product-card'))">
+                    ♡ Add to Wishlist
+                </button>
+                <button onclick="addToCart('Smart Watch', 1499)">
+                    Add to Cart
+                </button>
+            </div>
+
+            <div class="product-card" data-name="Backpack" data-category="accessories" data-price="799" data-description="Carry your daily essentials in this practical backpack, with a roomy design for school, work, or travel.">
+                <a href="#product-detail" class="product-details-trigger" onclick="showProductDetails(this.closest('.product-card')); return false;" aria-label="View Backpack details">
+                <img
+    src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400"
+    alt="Backpack"
+>
+                <h3>Backpack</h3>
+                <p>Price: ₹799</p>
+                </a>
+                <button type="button" class="wishlist-toggle" aria-pressed="false" onclick="toggleWishlist(this.closest('.product-card'))">
+                    ♡ Add to Wishlist
+                </button>
+                <button onclick="addToCart('Backpack', 799)">
+                    Add to Cart
+                </button>
+            </div>
+
+        </div>
+        </div>
+
+        <div id="product-detail" class="product-detail" hidden>
+            <button type="button" id="back-to-products" onclick="showProductListing()">
+                ← Back to Products
+            </button>
+            <div class="product-detail-content">
+                <img id="detail-image" src="" alt="">
+                <div class="product-detail-info">
+                    <h3 id="detail-name"></h3>
+                    <p id="detail-price" class="price"></p>
+                    <p id="detail-description"></p>
+                    <button type="button" id="detail-add-to-cart" onclick="addSelectedProductToCart()">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="wishlist" class="wishlist-section">
+        <h2>♡ My Wishlist (<span id="wishlist-count-section">0</span>)</h2>
+        <p id="empty-wishlist-message" role="status">Your wishlist is empty. Save products you love to find them here.</p>
+        <div id="wishlist-items" class="wishlist-container"></div>
+    </section>
+
+    <section id="order-history" class="order-history-section">
+        <h2>Order History</h2>
+        <p id="empty-order-history-message" role="status">You don't have any orders yet. Completed demo orders will appear here.</p>
+        <div id="order-history-items" class="order-history-list"></div>
+    </section>
+
+    <section id="cart">
+       <h2>🛒 Shopping Cart (<span id="cart-count">0</span>)</h2>
+        <ul id="cart-items"></ul>
+        <p id="total">Total: ₹0</p>
+        <button id="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        <div id="checkout-form" style="display: none;">
+            <h2>Checkout Details</h2>
+            <div id="order-summary">
+                <h3>📦 Order Summary</h3>
+                <div id="summary-items"></div>
+                <h3 id="summary-total">Total: ₹0</h3>
+            </div>
+
+            <p class="demo-payment-note">Demo checkout only. No payment will be processed.</p>
+            <p id="checkout-error" role="alert" hidden></p>
+
+            <form id="customer-form">
+                <label for="customer-name">Full Name:</label>
+                <input type="text" id="customer-name" autocomplete="name" required>
+
+                <label for="customer-email">Email Address:</label>
+                <input type="email" id="customer-email" autocomplete="email" required>
+
+                <label for="customer-phone">Phone Number:</label>
+                <input
+                    type="tel"
+                    id="customer-phone"
+                    autocomplete="tel"
+                    pattern="(?:\+91(?: |-)?)?[6-9][0-9]{9}"
+                    title="Enter a 10-digit Indian mobile number, optionally with +91 and a space or hyphen."
+                    required
+                >
+
+                <label for="customer-address">Delivery Address:</label>
+                <textarea id="customer-address" autocomplete="street-address" required></textarea>
+
+                <label for="payment-method">Payment Method:</label>
+                <select id="payment-method" required>
+                    <option value="COD">Cash on Delivery (Demo)</option>
+                </select>
+
+                <button type="submit">Place Demo Order</button>
+            </form>
+        </div>
+
+        <div id="order-message"></div>
+    </section>
+
+    <footer>
+        <p>© 2026 ShopEase | Student Project</p>
+    </footer>
+
+    <script src="product-data.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>

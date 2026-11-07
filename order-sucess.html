@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase - Order Confirmation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="login-container order-confirmation">
+        <h1>ShopEase</h1>
+
+        <h2 class="confirmation-title">
+            ✓ Order Placed Successfully!
+        </h2>
+
+        <p id="confirmation-thank-you">Thank you for shopping with us.</p>
+
+        <div id="orderDetails" aria-live="polite"></div>
+
+        <button onclick="window.location.href='index.html'">
+            Continue Shopping
+        </button>
+    </main>
+
+    <script>
+        const order = JSON.parse(
+            sessionStorage.getItem("shopEaseOrder")
+        );
+
+        const orderDetails =
+            document.getElementById("orderDetails");
+        const thankYouMessage =
+            document.getElementById("confirmation-thank-you");
+
+        if (order && order.id && Array.isArray(order.items)) {
+            thankYouMessage.textContent = `Thank you, ${order.name}. Your demo order has been placed.`;
+
+            const orderId = document.createElement("p");
+            orderId.className = "order-id";
+            orderId.textContent = `Order ID: ${order.id}`;
+            orderDetails.appendChild(orderId);
+
+            const email = document.createElement("p");
+            email.textContent = `Confirmation email: ${order.email}`;
+            orderDetails.appendChild(email);
+
+            const phone = document.createElement("p");
+            phone.textContent = `Phone: ${order.phone}`;
+            orderDetails.appendChild(phone);
+
+            const address = document.createElement("p");
+            address.textContent = `Delivery address: ${order.address}`;
+            orderDetails.appendChild(address);
+
+            const payment = document.createElement("p");
+            payment.textContent = `Payment method: ${order.paymentMethod} (demo only)`;
+            orderDetails.appendChild(payment);
+
+            const summaryTitle = document.createElement("h3");
+            summaryTitle.textContent = "Order Summary";
+            orderDetails.appendChild(summaryTitle);
+
+            const table = document.createElement("table");
+            table.className = "order-summary-table";
+            const tableHead = document.createElement("thead");
+            const headerRow = document.createElement("tr");
+            ["Product", "Qty", "Unit price", "Subtotal"].forEach(label => {
+                const heading = document.createElement("th");
+                heading.scope = "col";
+                heading.textContent = label;
+                headerRow.appendChild(heading);
+            });
+            tableHead.appendChild(headerRow);
+            table.appendChild(tableHead);
+
+            const tableBody = document.createElement("tbody");
+            order.items.forEach(item => {
+                const row = document.createElement("tr");
+                [
+                    item.name,
+                    item.quantity,
+                    `₹${item.unitPrice}`,
+                    `₹${item.lineTotal}`
+                ].forEach(value => {
+                    const cell = document.createElement("td");
+                    cell.textContent = value;
+                    row.appendChild(cell);
+                });
+                tableBody.appendChild(row);
+            });
+            table.appendChild(tableBody);
+            orderDetails.appendChild(table);
+
+            const total = document.createElement("h3");
+            total.className = "confirmation-total";
+            total.textContent = `Total: ₹${order.total}`;
+            orderDetails.appendChild(total);
+
+            const demoNote = document.createElement("p");
+            demoNote.className = "demo-payment-note";
+            demoNote.textContent =
+                "This is a demo order. No payment has been processed.";
+            orderDetails.appendChild(demoNote);
+        } else {
+            thankYouMessage.textContent =
+                "No recent order was found. Place a demo order to see its confirmation here.";
+        }
+    </script>
+
+</body>
+</html>

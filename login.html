@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase - Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <h1>ShopEase</h1>
+        <h2>Welcome Back!</h2>
+        <p>Login to your account</p>
+
+        <form id="loginForm">
+            <label>Email Address</label>
+            <input type="email" id="email"
+                   placeholder="Enter your email" required>
+
+            <label>Password</label>
+            <input type="password" id="password"
+                   placeholder="Enter your password" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p>Don't have an account?
+            <a href="signup.html">Register here</a>
+        </p>
+
+        <a href="index.html">Back to Shopping</a>
+    </div>
+
+    <script>
+document.getElementById("loginForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const savedUser = JSON.parse(
+        localStorage.getItem("shopEaseUser")
+    );
+
+    if (!savedUser) {
+        alert("Please register first!");
+        return;
+    }
+
+    if (email === savedUser.email &&
+        password === savedUser.password) {
+
+        // Session only. The account stays in shopEaseUser.
+        localStorage.setItem("shopEaseSession", JSON.stringify({
+            name: savedUser.name,
+            email: savedUser.email
+        }));
+
+        alert("Login successful! Welcome " + savedUser.name);
+
+        window.location.href = "index.html";
+
+    } else {
+        alert("Invalid email or password!");
+    }
+});
+</script>
+
+</body>
+</html>
